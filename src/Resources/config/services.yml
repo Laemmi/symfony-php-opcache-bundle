@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Laemmi\Bundle\PhpOpcacheBundle\:
+    resource: '../../*'
+    exclude: '../../{Entity,Model,Migrations,Tests}'
+
+  Laemmi\Bundle\PhpOpcacheBundle\Command\ResetCommand:
+    tags: [ console.command ]

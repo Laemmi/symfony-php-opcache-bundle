@@ -37,12 +37,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Component\Routing\RequestContext;
 
 class ResetCommand extends Command
 {
+    private string $projectDir;
+
     protected static $defaultName = 'phpopcache:reset';
+
+    public function __construct(string $name = null, KernelInterface $kernel)
+    {
+        $this->projectDir = $kernel->getProjectDir();
+
+        parent::__construct($name);
+    }
 
     protected function configure()
     {
@@ -63,7 +72,7 @@ class ResetCommand extends Command
             return 0;
         }
 
-        $filename = realpath(__DIR__ . '/../../public') . '/' . uniqid() . '.php';
+        $filename = realpath($this->projectDir . '/public') . '/' . uniqid() . '.php';
 
         if (false === file_put_contents($filename, '<?php opcache_reset(); ?>')) {
             $io->error('Can not generate file');
@@ -77,6 +86,7 @@ class ResetCommand extends Command
             $response = $client->request('GET', $url . '/' . basename($filename));
             $statusCode = $response->getStatusCode();
         } catch (\Exception $e) {
+            unlink($filename);
             $io->error($e->getMessage());
             return 0;
         }
