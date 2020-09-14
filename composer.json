@@ -1,0 +1,28 @@
+{
+  "name": "laemmi/symfony-php-opcache-bundle",
+  "type": "symfony-bundle",
+  "description": "Symfony console command to handle php opcache",
+  "keywords": ["opchache", "phpopcache", "symfony", "bundle", "laemmi"],
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michael Lämmlein",
+      "email": "laemmi@spacerabbit.de"
+    }
+  ],
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Laemmi\\Bundle\\PhpOpcacheBundle\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.4"
+  }
+}
